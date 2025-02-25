@@ -235,6 +235,9 @@
   .\!absolute {
     position: absolute !important;
   }
+  .\!relative {
+    position: relative !important;
+  }
   .absolute {
     position: absolute;
   }
@@ -415,8 +418,14 @@
     -webkit-box-orient: horizontal;
     -webkit-line-clamp: unset;
   }
+  .\!block {
+    display: block !important;
+  }
   .\!contents {
     display: contents !important;
+  }
+  .\!grid {
+    display: grid !important;
   }
   .\!hidden {
     display: none !important;
@@ -426,6 +435,9 @@
   }
   .block {
     display: block;
+  }
+  .block\! {
+    display: block !important;
   }
   .contents {
     display: contents;
@@ -523,6 +535,9 @@
   }
   .h-49 {
     height: calc(var(--spacing) * 49);
+  }
+  .h-82 {
+    height: calc(var(--spacing) * 82);
   }
   .h-auto {
     height: auto;
@@ -1972,6 +1987,9 @@
   .select-text {
     -webkit-user-select: text;
     user-select: text;
+  }
+  .\[a-zA-Z0-9\:\\\\-\\\\\._\$\] {
+    a-zA-Z0-9: \\-\\. $;
   }
   .\[hash\:8\] {
     hash: 8;
