@@ -1,0 +1,27 @@
+{
+  "projectName": "Digital Fortune Cookie MVP",
+  "language": "TypeScript",
+  "framework": "Next.js",
+  "cssFramework": "Tailwind CSS",
+  "generativeArtLibrary": "p5.js (via react-p5)",
+  "backend": {
+    "serverless": "Vercel Serverless Functions",
+    "llmIntegration": "Hugging Face Inference API"
+  },
+  "testing": {
+    "tdd": true,
+    "framework": "Jest",
+    "setup": "npm install --save-dev jest @types/jest ts-jest",
+    "testCommand": "npm run test",
+    "watchCommand": "npm run test:watch",
+    "minCoverage": "80%"
+  },
+  "deployment": {
+    "platform": "Vercel",
+    "buildCommand": "next build",
+    "startCommand": "next start"
+  },
+  "versionControl": {
+    "commitMessageConvention": "Conventional Commits"
+  }
+}

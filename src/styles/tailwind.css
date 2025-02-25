@@ -1,0 +1,7 @@
+/* Tailwind base styles */
+@import 'tailwindcss';
+
+@theme {
+  --color-primary: #1d4ed8;
+  /* add other design tokens here */
+}
