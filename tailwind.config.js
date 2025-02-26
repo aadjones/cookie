@@ -10,6 +10,15 @@ module.exports = {
       colors: {
         primary: '#1d4ed8',
       },
+      keyframes: {
+        'quantum-flicker': {
+          '0%': { opacity: '1', transform: 'scale(1)' },
+          '100%': { opacity: '0.7', transform: 'scale(0.95)' },
+        },
+      },
+      animation: {
+        'quantum-flicker': 'quantum-flicker 0.5s infinite alternate',
+      },
     },
   },
   plugins: [],
