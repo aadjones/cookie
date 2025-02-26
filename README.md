@@ -31,6 +31,8 @@ This project is a digital fortune cookie application built with Next.js, TypeScr
    ```bash
    npm install
 
+   ```
+
 3. **Run the development server:**
 
    ```bash
@@ -42,4 +44,4 @@ This project is a digital fortune cookie application built with Next.js, TypeScr
 
 ## License
 
-This project is licensed under the MIT License. 
+This project is licensed under the MIT License.
