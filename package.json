@@ -11,7 +11,10 @@
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "check-types": "tsc --noEmit",
+    "clean": "rm -rf .next",
+    "deploy": "vercel --prod"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": "eslint --fix"
