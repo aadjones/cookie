@@ -1,5 +1,5 @@
 // src/components/ShareButtons.tsx
-import React from "react";
+import React from 'react';
 
 interface ShareButtonsProps {
   fortune: string;
@@ -14,10 +14,7 @@ export default function ShareButtons({ fortune }: ShareButtonsProps) {
 
   return (
     <div className="flex space-x-2">
-      <button
-        className="px-3 py-1 bg-blue-500 text-white rounded"
-        onClick={() => handleShare("Twitter")}
-      >
+      <button className="px-3 py-1 bg-blue-500 text-white rounded" onClick={() => handleShare('Twitter')}>
         Share
       </button>
     </div>
