@@ -4,60 +4,75 @@ import Header from '../components/Header';
 import CookieArt from '../components/CookieArt';
 import CookieAnimation from '../components/CookieAnimation';
 import FortuneMessage from '../components/FortuneMessage';
-import ShareButtons from '../components/ShareButtons';
 
 export default function Home() {
-  // Whether the cookie has been cracked
   const [isCookieCracked, setIsCookieCracked] = useState(false);
-  // The fortune that appears after cracking the cookie
   const [fortune, setFortune] = useState('');
 
-  // Handle user clicking on the cookie
   const handleCookieClick = async () => {
+    // Ignore if already cracked
+    if (isCookieCracked) return;
+
     try {
-      // Fetch a random fortune from our API
       const response = await fetch('/api/fortune');
-      if (!response.ok) {
-        throw new Error('Failed to fetch fortune');
-      }
+      if (!response.ok) throw new Error('Failed to fetch fortune');
       const data = await response.json();
       setFortune(data.fortune);
     } catch (err) {
-      // If there's an error, show a fallback fortune
       setFortune('Error generating fortune. Please try again.');
     }
 
-    // Once the fortune is retrieved, mark the cookie as cracked
     setIsCookieCracked(true);
   };
 
-  // Reset everything so we start from scratch
   const handleNewCookie = () => {
     setIsCookieCracked(false);
     setFortune('');
   };
 
-  return (
-    <div className="min-h-screen bg-gray-100 flex flex-col">
-      <Header />
-      <main className="flex-grow container mx-auto p-4 flex flex-col items-center justify-center space-y-6">
-        {/* Cookie Art is always shown */}
-        <CookieArt onClick={handleCookieClick} />
+  const handleShare = () => {
+    alert(`Sharing fortune: "${fortune}"`);
+  };
 
-        {/* If the cookie is cracked, show animation + fortune + share */}
-        {isCookieCracked && (
-          <div className="flex flex-col items-center space-y-4">
-            <CookieAnimation />
-            {fortune && <FortuneMessage message={fortune} />}
-            {fortune && <ShareButtons fortune={fortune} />}
+  return (
+    <div className="relative min-h-screen bg-gray-100 flex flex-col">
+      <Header />
+      {/* Main content in the center */}
+      <main className="flex-grow container mx-auto p-4 flex flex-col items-center justify-center">
+        {/* Show cookie art if not cracked */}
+        {!isCookieCracked && <CookieArt onClick={handleCookieClick} />}
+
+        {/* If cracked, show the animation */}
+        {isCookieCracked && <CookieAnimation />}
+
+        {/* If there's a fortune, show it below the animation */}
+        {fortune && (
+          <div className="mt-4" data-testid="fortune-wrapper">
+            <FortuneMessage message={fortune} />
           </div>
         )}
+      </main>
 
-        {/* "Get New Cookie" button below */}
-        <button className="mt-8 px-4 py-2 bg-blue-500 text-white rounded" onClick={handleNewCookie}>
+      {/* Fixed bottom bar for "Get New Cookie" (left) and optional "Share" (right) */}
+      <div className="w-full bg-white shadow-md py-4 px-6 fixed bottom-0 left-0 flex items-center justify-between">
+        {/* Left: Get New Cookie */}
+        <button className="px-4 py-2 bg-blue-500 text-white rounded" onClick={handleNewCookie}>
           Get New Cookie
         </button>
-      </main>
+
+        {/* Right: Share only if there's a fortune */}
+        {fortune && (
+          <button
+            className="px-4 py-2 bg-green-500 text-white rounded flex items-center space-x-2"
+            onClick={handleShare}
+          >
+            <span role="img" aria-label="Share icon">
+              🔗
+            </span>
+            <span>Share</span>
+          </button>
+        )}
+      </div>
     </div>
   );
 }
