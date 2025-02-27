@@ -63,7 +63,7 @@ export const cookiePersonalities: CookiePersonality[] = [
       "What do you mean you didn't get a fortune? You already read it!",
       'You must have missed it—your destiny was clearly outlined in that fortune you already read, even if you pretend otherwise.',
     ],
-    specialBehavior: SpecialBehaviorType.GASLIGHTING,
+    specialBehavior: SpecialBehaviorType.STANDARD,
   },
   {
     id: 'quantum',
