@@ -1,6 +1,6 @@
 // src/pages/api/fortune.ts
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { getRandomCookiePersonality, getRandomMessage } from '../../utils/cookieData';
+import { cookiePersonalities, getRandomCookiePersonality, getRandomMessage } from '../../utils/cookieData';
 import { FortuneResponse } from '../../utils/types';
 
 export default function handler(req: NextApiRequest, res: NextApiResponse<FortuneResponse | { message: string }>) {
@@ -11,7 +11,8 @@ export default function handler(req: NextApiRequest, res: NextApiResponse<Fortun
 
   try {
     // Get a random cookie personality
-    const personality = getRandomCookiePersonality();
+    // Get a random cookie personality
+    const personality = getRandomCookiePersonality()
 
     // Get a random message from that personality
     const message = getRandomMessage(personality);

@@ -13,16 +13,27 @@ export default function FortuneMessage({ message, personality }: FortuneMessageP
 
   // Handle special behaviors for message display
   useEffect(() => {
-    if (personality.specialBehavior === SpecialBehaviorType.QUANTUM && personality.messages.length >= 2) {
-      // For quantum cookies, alternate between two messages
+    if (personality.specialBehavior === SpecialBehaviorType.QUANTUM) {
+      // For quantum cookies, we need to alternate between the two messages
       setIsFlickering(true);
-      const interval = setInterval(() => {
-        setDisplayMessage((prev) =>
-          prev === personality.messages[0] ? personality.messages[1] : personality.messages[0]
-        );
-      }, 800);
 
-      return () => clearInterval(interval);
+      // Split the paired message (e.g., "A / B") into individual messages
+      const messageParts = message.split(' / ');
+      if (messageParts.length === 2) {
+        // Set up an interval to alternate between the two messages
+        let showFirst = true;
+        setDisplayMessage(messageParts[0]);
+
+        const interval = setInterval(() => {
+          showFirst = !showFirst;
+          setDisplayMessage(showFirst ? messageParts[0] : messageParts[1]);
+        }, 800);
+
+        return () => clearInterval(interval);
+      } else {
+        // Fallback if the message doesn't have the expected format
+        setDisplayMessage(message);
+      }
     } else if (personality.specialBehavior === SpecialBehaviorType.GASLIGHTING) {
       // For gaslighting cookies, show the message briefly then hide it
       const timeout = setTimeout(() => {

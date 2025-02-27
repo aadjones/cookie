@@ -61,4 +61,29 @@ describe('Cookie Personalities', () => {
     const apathetic = cookiePersonalities.find((p) => p.id === 'apathetic');
     expect(apathetic?.specialBehavior).toBe(SpecialBehaviorType.APATHETIC);
   });
+
+  test('quantum cookie should return paired messages', () => {
+    // Get the quantum cookie
+    const quantum = cookiePersonalities.find((p) => p.id === 'quantum');
+    expect(quantum).toBeDefined();
+
+    if (quantum) {
+      // Define the expected pairs
+      const expectedPairs = [
+        `${quantum.messages[0]} / ${quantum.messages[1]}`, // "Your outlook is good / Your outlook is not so good"
+        `${quantum.messages[2]} / ${quantum.messages[3]}`, // "There is no cookie / There is no you"
+      ];
+
+      // Run the test multiple times to increase confidence
+      for (let i = 0; i < 20; i++) {
+        const message = getRandomMessage(quantum);
+
+        // Verify that the message contains a slash separator
+        expect(message).toContain(' / ');
+
+        // The message should be one of the expected pairs
+        expect(expectedPairs).toContain(message);
+      }
+    }
+  });
 });

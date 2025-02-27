@@ -14,7 +14,11 @@
     "format": "prettier --write .",
     "check-types": "tsc --noEmit",
     "clean": "rm -rf .next",
-    "deploy": "vercel --prod"
+    "deploy": "vercel --prod",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build",
+    "force-cookie": "node --experimental-modules scripts/forceCookie.js",
+    "restore-cookie": "node --experimental-modules scripts/restoreCookie.js"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": "eslint --fix"

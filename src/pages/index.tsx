@@ -5,6 +5,7 @@ import CookieArt from '../components/CookieArt';
 import CookieAnimation from '../components/CookieAnimation';
 import FortuneMessage from '../components/FortuneMessage';
 import { CookiePersonality } from '../utils/types';
+import { getRandomMessage } from '../utils/cookieData';
 
 export default function Home() {
   const [isCookieCracked, setIsCookieCracked] = useState(false);
@@ -38,16 +39,10 @@ export default function Home() {
     if (isCookieCracked) return;
 
     try {
-      // Use a message from the current personality instead of fetching a new one
+      // Use a message from the current personality
       if (currentPersonality) {
-        // If we have messages in the personality, randomly select one
-        if (currentPersonality.messages && currentPersonality.messages.length > 0) {
-          const randomIndex = Math.floor(Math.random() * currentPersonality.messages.length);
-          setMessage(currentPersonality.messages[randomIndex]);
-        } else {
-          // Fallback in case there are no messages
-          setMessage('No fortune available for this cookie.');
-        }
+        // Use getRandomMessage to handle special behaviors like Quantum cookie
+        setMessage(getRandomMessage(currentPersonality));
       }
     } catch (err) {
       setMessage('Error generating fortune. Please try again.');
