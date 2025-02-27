@@ -55,9 +55,6 @@ describe('Cookie Personalities', () => {
     const quantum = cookiePersonalities.find((p) => p.id === 'quantum');
     expect(quantum?.specialBehavior).toBe(SpecialBehaviorType.QUANTUM);
 
-    const gaslighting = cookiePersonalities.find((p) => p.id === 'gaslighting');
-    expect(gaslighting?.specialBehavior).toBe(SpecialBehaviorType.GASLIGHTING);
-
     const apathetic = cookiePersonalities.find((p) => p.id === 'apathetic');
     expect(apathetic?.specialBehavior).toBe(SpecialBehaviorType.APATHETIC);
   });

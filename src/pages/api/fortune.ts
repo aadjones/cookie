@@ -1,6 +1,6 @@
 // src/pages/api/fortune.ts
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { getRandomCookiePersonality, getRandomMessage } from '../../utils/cookieData';
+import { cookiePersonalities, getRandomMessage } from '../../utils/cookieData';
 import { FortuneResponse } from '../../utils/types';
 
 export default function handler(req: NextApiRequest, res: NextApiResponse<FortuneResponse | { message: string }>) {
@@ -12,7 +12,15 @@ export default function handler(req: NextApiRequest, res: NextApiResponse<Fortun
   try {
     // Get a random cookie personality
     // Get a random cookie personality
-    const personality = getRandomCookiePersonality();
+    // FORCE_COOKIE - This code was added by the forceCookie script
+    // To restore original behavior, run: npm run restore-cookie
+    const forcedCookieId = 'apathetic';
+    const forcedCookie = cookiePersonalities.find((c) => c.id === forcedCookieId);
+    if (!forcedCookie) {
+      console.error(`Cookie personality with ID ${forcedCookieId} not found`);
+      return res.status(500).json({ message: 'Forced cookie personality not found' });
+    }
+    const personality = forcedCookie;
 
     // Get a random message from that personality
     const message = getRandomMessage(personality);
