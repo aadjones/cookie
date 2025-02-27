@@ -1,23 +1,29 @@
 // src/pages/api/fortune.ts
 import type { NextApiRequest, NextApiResponse } from 'next';
+import { getRandomCookiePersonality, getRandomMessage } from '../../utils/cookieData';
+import { FortuneResponse } from '../../utils/types';
 
-const fortunes = [
-  'You will find great wealth in unexpected places.',
-  'A thrilling time is in your immediate future.',
-  'Something you lost will soon turn up.',
-  'Happiness begins with facing life head-on.',
-  'An unexpected encounter will bring you joy.',
-];
-
-export default function handler(req: NextApiRequest, res: NextApiResponse) {
+export default function handler(req: NextApiRequest, res: NextApiResponse<FortuneResponse | { message: string }>) {
   if (req.method !== 'GET') {
     res.status(405).json({ message: 'Method Not Allowed' });
     return;
   }
 
-  // Pick a random fortune from the array
-  const randomFortune = fortunes[Math.floor(Math.random() * fortunes.length)];
+  try {
+    // Get a random cookie personality
+    // Get a random cookie personality
+    const personality = getRandomCookiePersonality();
 
-  // Return it as JSON
-  res.status(200).json({ fortune: randomFortune });
+    // Get a random message from that personality
+    const message = getRandomMessage(personality);
+
+    // Return the personality and message
+    res.status(200).json({
+      personality,
+      message,
+    });
+  } catch (error) {
+    console.error('Error generating fortune:', error);
+    res.status(500).json({ message: 'Error generating fortune' });
+  }
 }

@@ -42,6 +42,37 @@ This project is a digital fortune cookie application built with Next.js, TypeScr
 4. **Open your browser and navigate to:**
    - http://localhost:3000
 
+## Development Tools
+
+### Testing Cookie Personalities
+
+For testing specific cookie personalities, you can use the following scripts:
+
+1. **Force a specific cookie personality:**
+
+   ```bash
+   npm run force-cookie <cookie-id>
+   ```
+
+   Available cookie IDs:
+
+   - toxic-positivity
+   - error
+   - conspiracy
+   - actuarial
+   - misfortune
+   - matryoshka
+   - gaslighting
+   - quantum
+   - apathetic
+   - insightful
+
+2. **Restore random cookie selection:**
+
+   ```bash
+   npm run restore-cookie
+   ```
+
 ## License
 
 This project is licensed under the MIT License.

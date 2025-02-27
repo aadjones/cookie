@@ -1,25 +1,51 @@
 // src/pages/index.tsx
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Header from '../components/Header';
 import CookieArt from '../components/CookieArt';
 import CookieAnimation from '../components/CookieAnimation';
 import FortuneMessage from '../components/FortuneMessage';
+import { CookiePersonality } from '../utils/types';
+import { getRandomMessage } from '../utils/cookieData';
 
 export default function Home() {
   const [isCookieCracked, setIsCookieCracked] = useState(false);
-  const [fortune, setFortune] = useState('');
+  const [message, setMessage] = useState('');
+  const [currentPersonality, setCurrentPersonality] = useState<CookiePersonality | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  // Fetch a cookie personality when the page loads
+  useEffect(() => {
+    fetchCookiePersonality();
+  }, []);
+
+  // Function to fetch a cookie personality
+  const fetchCookiePersonality = async () => {
+    setIsLoading(true);
+    try {
+      const response = await fetch('/api/fortune');
+      if (!response.ok) throw new Error('Failed to fetch fortune');
+
+      const data = await response.json();
+      setCurrentPersonality(data.personality);
+      setIsLoading(false);
+    } catch (err) {
+      console.error('Error fetching cookie personality:', err);
+      setIsLoading(false);
+    }
+  };
 
   const handleCookieClick = async () => {
     // Ignore if already cracked
     if (isCookieCracked) return;
 
     try {
-      const response = await fetch('/api/fortune');
-      if (!response.ok) throw new Error('Failed to fetch fortune');
-      const data = await response.json();
-      setFortune(data.fortune);
+      // Use a message from the current personality
+      if (currentPersonality) {
+        // Use getRandomMessage to handle special behaviors like Quantum cookie
+        setMessage(getRandomMessage(currentPersonality));
+      }
     } catch (err) {
-      setFortune('Error generating fortune. Please try again.');
+      setMessage('Error generating fortune. Please try again.');
     }
 
     setIsCookieCracked(true);
@@ -27,11 +53,29 @@ export default function Home() {
 
   const handleNewCookie = () => {
     setIsCookieCracked(false);
-    setFortune('');
+    setMessage('');
+    // Fetch a new cookie personality
+    fetchCookiePersonality();
   };
 
   const handleShare = () => {
-    alert(`Sharing fortune: "${fortune}"`);
+    if (!currentPersonality) return;
+
+    const shareText = `I cracked open a ${currentPersonality.name} and got: "${message}"`;
+
+    // Check if the Web Share API is available
+    if (navigator.share) {
+      navigator
+        .share({
+          title: 'My Digital Fortune Cookie',
+          text: shareText,
+          url: window.location.href,
+        })
+        .catch((error) => console.log('Error sharing:', error));
+    } else {
+      // Fallback for browsers that don't support the Web Share API
+      alert(`Sharing fortune: "${shareText}"`);
+    }
   };
 
   return (
@@ -39,16 +83,26 @@ export default function Home() {
       <Header />
       {/* Main content in the center */}
       <main className="flex-grow container mx-auto p-4 flex flex-col items-center justify-center">
-        {/* Show cookie art if not cracked */}
-        {!isCookieCracked && <CookieArt onClick={handleCookieClick} />}
+        {/* Show loading state while fetching cookie personality */}
+        {isLoading && (
+          <div className="flex flex-col items-center">
+            <span className="text-2xl mb-4">Loading your cookie...</span>
+            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+          </div>
+        )}
+
+        {/* Show cookie art if not cracked and not loading */}
+        {!isCookieCracked && !isLoading && currentPersonality && (
+          <CookieArt onClick={handleCookieClick} personality={currentPersonality} />
+        )}
 
         {/* If cracked, show the animation */}
-        {isCookieCracked && <CookieAnimation />}
+        {isCookieCracked && currentPersonality && <CookieAnimation personality={currentPersonality} />}
 
-        {/* If there's a fortune, show it below the animation */}
-        {fortune && (
+        {/* If there's a message and personality, show it below the animation */}
+        {message && currentPersonality && isCookieCracked && (
           <div className="mt-4" data-testid="fortune-wrapper">
-            <FortuneMessage message={fortune} />
+            <FortuneMessage message={message} personality={currentPersonality} />
           </div>
         )}
       </main>
@@ -61,7 +115,7 @@ export default function Home() {
         </button>
 
         {/* Right: Share only if there's a fortune */}
-        {fortune && (
+        {message && currentPersonality && (
           <button
             className="px-4 py-2 bg-green-500 text-white rounded flex items-center space-x-2"
             onClick={handleShare}
