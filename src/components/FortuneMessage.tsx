@@ -34,13 +34,6 @@ export default function FortuneMessage({ message, personality }: FortuneMessageP
         // Fallback if the message doesn't have the expected format
         setDisplayMessage(message);
       }
-    } else if (personality.specialBehavior === SpecialBehaviorType.GASLIGHTING) {
-      // For gaslighting cookies, show the message briefly then hide it
-      const timeout = setTimeout(() => {
-        setDisplayMessage('');
-      }, 3000);
-
-      return () => clearTimeout(timeout);
     } else {
       setDisplayMessage(message);
       setIsFlickering(false);

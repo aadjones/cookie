@@ -113,15 +113,6 @@ export default function CookieAnimation({ personality }: CookieAnimationProps) {
             <p className="text-sm">The cookie exists in multiple states!</p>
           </>
         );
-      case SpecialBehaviorType.GASLIGHTING:
-        return (
-          <>
-            <span role="img" aria-label="Gaslighting Cookie" className="text-8xl">
-              {personality.emoji}💥
-            </span>
-            <p className="text-sm">Cookie Cracked!</p>
-          </>
-        );
       case SpecialBehaviorType.APATHETIC:
         return (
           <>
