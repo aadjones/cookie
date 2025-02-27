@@ -83,7 +83,7 @@ enum SpecialBehaviorType {
   MATRYOSHKA = 'matryoshka',
   QUANTUM = 'quantum',
   GASLIGHTING = 'gaslighting',
-  APATHETIC = 'apathetic'
+  APATHETIC = 'apathetic',
 }
 ```
 
