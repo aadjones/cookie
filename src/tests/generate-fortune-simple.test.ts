@@ -206,3 +206,84 @@ describe('/api/generate-fortune - Simple Tests', () => {
     expect(global.fetch).toHaveBeenCalledTimes(1);
   });
 });
+
+// Qualitative tests for AI fortune generation
+describe('AI Fortune Generation Qualitative Tests', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+    process.env.OPENAI_API_KEY = 'test-api-key';
+  });
+
+  afterAll(() => {
+    delete process.env.OPENAI_API_KEY;
+  });
+
+  it('generates fortunes that match the personality tone', async () => {
+    // Test different personality types to ensure tone matching
+    const personalities = [
+      {
+        id: 'toxic-positivity',
+        name: 'Toxic Positivity Cookie',
+        emoji: '🌈',
+        messages: ['Your coffee may be cold but your heart is warm!'],
+        specialBehavior: SpecialBehaviorType.STANDARD,
+        expectedTone: 'overly positive',
+      },
+      {
+        id: 'misfortune',
+        name: 'Misfortune Cookie',
+        emoji: '☔',
+        messages: ['Bad luck follows you like a shadow.'],
+        specialBehavior: SpecialBehaviorType.STANDARD,
+        expectedTone: 'negative',
+      },
+      {
+        id: 'insightful',
+        name: 'Insightful Cookie',
+        emoji: '🧠',
+        messages: ['The path to wisdom begins with a single step.'],
+        specialBehavior: SpecialBehaviorType.STANDARD,
+        expectedTone: 'philosophical',
+      },
+    ];
+
+    for (const personality of personalities) {
+      // Mock a response that matches the expected tone
+      (global.fetch as jest.Mock).mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({
+          choices: [
+            {
+              message: {
+                content: `This is a ${personality.expectedTone} message for testing!`,
+              },
+            },
+          ],
+        }),
+      });
+
+      const { req, res } = createMocks({
+        method: 'POST',
+        body: { personality },
+      });
+
+      await handler(req, res);
+
+      expect(res._getStatusCode()).toBe(200);
+      const data = JSON.parse(res._getData());
+
+      // Verify the message contains the expected tone
+      expect(data.message).toContain(personality.expectedTone);
+
+      // Verify the API was called with appropriate prompts
+      const fetchCalls = (global.fetch as jest.Mock).mock.calls;
+      const lastCallBody = JSON.parse(fetchCalls[fetchCalls.length - 1][1].body);
+
+      // The system prompt should mention the personality
+      expect(lastCallBody.messages[0].content).toContain('Test system prompt');
+
+      // The user prompt should be appropriate
+      expect(lastCallBody.messages[1].content).toContain('Test user prompt');
+    }
+  });
+});

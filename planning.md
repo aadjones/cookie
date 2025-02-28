@@ -55,6 +55,9 @@ We need to implement different cookie personalities as specified in the specs.md
 - [x] Fix failing tests after API changes
 - [x] Add test for Matryoshka Cookie message visibility
 - [x] Add test for Quantum Cookie message pairing
+- [x] Add tests for ArtModeToggle component
+- [x] Add tests for CookieArt component with DALL-E integration
+- [x] Add tests for generate-art API endpoint
 
 ### 8. Refinement
 
@@ -109,6 +112,9 @@ We've modified the following components:
 - Added a test to verify the Quantum Cookie message pairing behavior
 - Fixed string delimiter issues in cookieData.ts
 - Fixed linter errors throughout the codebase
+- Added comprehensive tests for ArtModeToggle component
+- Added tests for CookieArt component with DALL-E integration
+- Created simplified tests for the generate-art API endpoint
 
 ## Next Steps
 

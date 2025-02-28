@@ -1,56 +1,47 @@
 import React from 'react';
-import { MessageGenerationMode } from '../utils/types';
+import { ArtGenerationMode } from '../utils/types';
 
-interface GenerationModeToggleProps {
-  mode: MessageGenerationMode;
-  onChange: (mode: MessageGenerationMode) => void;
+interface ArtModeToggleProps {
+  mode: ArtGenerationMode;
+  onChange: (mode: ArtGenerationMode) => void;
   disabled?: boolean;
   showLabel?: boolean;
 }
 
-export default function GenerationModeToggle({
-  mode,
-  onChange,
-  disabled = false,
-  showLabel = false,
-}: GenerationModeToggleProps) {
+export default function ArtModeToggle({ mode, onChange, disabled = false, showLabel = false }: ArtModeToggleProps) {
   return (
-    <div className="flex flex-col" data-testid="generation-mode-toggle">
-      {showLabel && <label className="text-sm font-semibold text-gray-700 mb-2">Messages</label>}
+    <div className="flex flex-col" data-testid="art-mode-toggle">
+      {showLabel && <label className="text-sm font-semibold text-gray-700 mb-2">Art</label>}
       <div className="flex items-center justify-between w-full">
         <span
           className={`text-sm transition-all duration-200 ${
-            mode === MessageGenerationMode.PRE_WRITTEN ? 'font-medium text-indigo-600' : 'text-gray-500'
+            mode === ArtGenerationMode.EMOJI ? 'font-medium text-indigo-600' : 'text-gray-500'
           }`}
         >
-          Classic
+          Emoji
         </span>
         <button
           disabled={disabled}
           className={`relative mx-3 inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-offset-1 ${
-            mode === MessageGenerationMode.AI_GENERATED
+            mode === ArtGenerationMode.DALL_E
               ? 'bg-indigo-600 focus:ring-indigo-500'
               : 'bg-gray-300 focus:ring-gray-400'
           } ${disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}`}
           onClick={() =>
-            onChange(
-              mode === MessageGenerationMode.PRE_WRITTEN
-                ? MessageGenerationMode.AI_GENERATED
-                : MessageGenerationMode.PRE_WRITTEN
-            )
+            onChange(mode === ArtGenerationMode.EMOJI ? ArtGenerationMode.DALL_E : ArtGenerationMode.EMOJI)
           }
-          aria-label={`Switch to ${mode === MessageGenerationMode.PRE_WRITTEN ? 'AI-generated' : 'pre-written'} fortunes`}
-          data-testid="generation-mode-switch"
+          aria-label={`Switch to ${mode === ArtGenerationMode.EMOJI ? 'DALL-E generated' : 'emoji'} art`}
+          data-testid="art-mode-switch"
         >
           <span
             className={`inline-block h-5 w-5 transform rounded-full bg-white shadow-md transition-transform duration-200 ease-in-out ${
-              mode === MessageGenerationMode.AI_GENERATED ? 'translate-x-5' : 'translate-x-0.5'
+              mode === ArtGenerationMode.DALL_E ? 'translate-x-5' : 'translate-x-0.5'
             }`}
           />
         </button>
         <span
           className={`text-sm transition-all duration-200 ${
-            mode === MessageGenerationMode.AI_GENERATED ? 'font-medium text-indigo-600' : 'text-gray-500'
+            mode === ArtGenerationMode.DALL_E ? 'font-medium text-indigo-600' : 'text-gray-500'
           }`}
         >
           AI-Generated
@@ -72,7 +63,7 @@ export default function GenerationModeToggle({
                 d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
               ></path>
             </svg>
-            Loading...
+            Generating...
           </span>
         </div>
       )}

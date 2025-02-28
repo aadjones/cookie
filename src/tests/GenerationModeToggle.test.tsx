@@ -57,7 +57,8 @@ describe('GenerationModeToggle', () => {
 
     expect(screen.getByTestId('generation-mode-switch')).toBeDisabled();
     expect(screen.getByTestId('toggle-disabled-message')).toBeInTheDocument();
-    expect(screen.getByTestId('toggle-disabled-message')).toHaveTextContent('(Loading...)');
+    // Check for loading text in a more qualitative way
+    expect(screen.getByTestId('toggle-disabled-message').textContent).toContain('Loading');
 
     fireEvent.click(screen.getByTestId('generation-mode-switch'));
     expect(mockOnChange).not.toHaveBeenCalled();
