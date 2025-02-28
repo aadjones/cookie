@@ -17,7 +17,7 @@ describe('CookieAnimation', () => {
     render(<CookieAnimation personality={standardCookie} />);
 
     // Check that the emoji and explosion are displayed
-    const emojiElement = screen.getByRole('img', { name: /cracked cookie/i });
+    const emojiElement = screen.getByRole('img', { name: 'Cookie Art' });
     expect(emojiElement).toHaveTextContent('🍪💥');
 
     // Check that the message is displayed
@@ -36,7 +36,7 @@ describe('CookieAnimation', () => {
     render(<CookieAnimation personality={matryoshkaCookie} />);
 
     // Check initial state
-    const initialDoll = screen.getByRole('img', { name: /matryoshka doll level 1/i });
+    const initialDoll = screen.getByRole('img', { name: 'Matryoshka Doll Level 1' });
     expect(initialDoll).toHaveTextContent('🪆');
     expect(screen.getByText('A smaller doll appeared! Click to open it.')).toBeInTheDocument();
 
@@ -44,7 +44,7 @@ describe('CookieAnimation', () => {
     fireEvent.click(initialDoll);
 
     // Check that the level has increased
-    const secondDoll = screen.getByRole('img', { name: /matryoshka doll level 2/i });
+    const secondDoll = screen.getByRole('img', { name: 'Matryoshka Doll Level 2' });
     expect(secondDoll).toBeInTheDocument();
     expect(screen.getByText('A smaller doll appeared! Click to open it.')).toBeInTheDocument();
 
@@ -53,8 +53,8 @@ describe('CookieAnimation', () => {
 
     // Click until we reach the max level
     fireEvent.click(secondDoll); // Level 3
-    fireEvent.click(screen.getByRole('img', { name: /matryoshka doll level 3/i })); // Level 4
-    fireEvent.click(screen.getByRole('img', { name: /matryoshka doll level 4/i })); // Level 5
+    fireEvent.click(screen.getByRole('img', { name: 'Matryoshka Doll Level 3' })); // Level 4
+    fireEvent.click(screen.getByRole('img', { name: 'Matryoshka Doll Level 4' })); // Level 5
 
     // Check the final message
     expect(screen.getByText('Sorry, but your fortune is in another doll')).toBeInTheDocument();
@@ -72,7 +72,7 @@ describe('CookieAnimation', () => {
     render(<CookieAnimation personality={quantumCookie} />);
 
     // Check that the emoji and special effect are displayed
-    const emojiElement = screen.getByRole('img', { name: /quantum cookie/i });
+    const emojiElement = screen.getByRole('img', { name: 'Cookie Art' });
     expect(emojiElement).toHaveTextContent('⚛️💫');
 
     // Check that it has the quantum flicker animation class
@@ -97,11 +97,11 @@ describe('CookieAnimation', () => {
     render(<CookieAnimation personality={matryoshkaCookie} />);
 
     // Click through all levels to reach the maximum
-    const initialDoll = screen.getByRole('img', { name: /matryoshka doll level 1/i });
+    const initialDoll = screen.getByRole('img', { name: 'Matryoshka Doll Level 1' });
     fireEvent.click(initialDoll); // Level 2
-    fireEvent.click(screen.getByRole('img', { name: /matryoshka doll level 2/i })); // Level 3
-    fireEvent.click(screen.getByRole('img', { name: /matryoshka doll level 3/i })); // Level 4
-    fireEvent.click(screen.getByRole('img', { name: /matryoshka doll level 4/i })); // Level 5 (MAX)
+    fireEvent.click(screen.getByRole('img', { name: 'Matryoshka Doll Level 2' })); // Level 3
+    fireEvent.click(screen.getByRole('img', { name: 'Matryoshka Doll Level 3' })); // Level 4
+    fireEvent.click(screen.getByRole('img', { name: 'Matryoshka Doll Level 4' })); // Level 5 (MAX)
 
     // Verify the final message is displayed
     expect(screen.getByText('Sorry, but your fortune is in another doll')).toBeInTheDocument();
