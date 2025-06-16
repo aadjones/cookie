@@ -98,7 +98,6 @@ export async function generateDALLEImage(personalityId: string, personalityName:
       n: 1,
       size: '256x256',
       response_format: 'url',
-      quality: 'standard',
     }),
   });
 
