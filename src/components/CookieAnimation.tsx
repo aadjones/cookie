@@ -45,7 +45,7 @@ export default function CookieAnimation({
 
     // Set initial message for Matryoshka cookie
     if (personality.specialBehavior === SpecialBehaviorType.MATRYOSHKA) {
-      setMatryoshkaMessage('A smaller doll appeared! Click to open it.');
+      setMatryoshkaMessage('A smaller doll appeared! Tap to open it.');
     }
 
     // Cleanup any timeouts when component unmounts
@@ -89,7 +89,7 @@ export default function CookieAnimation({
         setMatryoshkaMessage('Sorry, but your fortune is in another doll');
       } else {
         // Intermediate level message - disappears after a delay
-        setMatryoshkaMessage('A smaller doll appeared! Click to open it.');
+        setMatryoshkaMessage('A smaller doll appeared! Tap to open it.');
         // Set timeout to clear message after 2 seconds
         timeoutRef.current = setTimeout(() => {
           setMatryoshkaMessage('');
@@ -156,12 +156,7 @@ export default function CookieAnimation({
 
     switch (personality.specialBehavior) {
       case SpecialBehaviorType.STANDARD:
-        return (
-          <>
-            {renderArt(personality.emoji, '💥')}
-            <p className="text-sm">Cookie Cracked!</p>
-          </>
-        );
+        return renderArt(personality.emoji, '💥');
       case SpecialBehaviorType.MATRYOSHKA:
         return (
           <div
@@ -194,26 +189,11 @@ export default function CookieAnimation({
           </div>
         );
       case SpecialBehaviorType.QUANTUM:
-        return (
-          <>
-            {renderArt(personality.emoji, '💫', 'text-8xl animate-quantum-flicker')}
-            <p className="text-sm">The cookie exists in multiple states!</p>
-          </>
-        );
+        return renderArt(personality.emoji, '💫', 'text-8xl animate-quantum-flicker');
       case SpecialBehaviorType.APATHETIC:
-        return (
-          <>
-            {renderArt(personality.emoji, '😴')}
-            <p className="text-sm">This cookie couldn&apos;t care less...</p>
-          </>
-        );
+        return renderArt(personality.emoji, '😴');
       default:
-        return (
-          <>
-            {renderArt(personality.emoji, '💥')}
-            <p className="text-sm">Cookie Cracked!</p>
-          </>
-        );
+        return renderArt(personality.emoji, '💥');
     }
   };
 

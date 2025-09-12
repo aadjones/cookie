@@ -9,13 +9,11 @@ interface FortuneMessageProps {
 
 export default function FortuneMessage({ message, personality }: FortuneMessageProps) {
   const [displayMessage, setDisplayMessage] = useState(message);
-  const [isFlickering, setIsFlickering] = useState(false);
 
   // Handle special behaviors for message display
   useEffect(() => {
     if (personality.specialBehavior === SpecialBehaviorType.QUANTUM) {
       // For quantum cookies, we need to alternate between the two messages
-      setIsFlickering(true);
 
       // Split the paired message (e.g., "A / B") into individual messages
       const messageParts = message.split(' / ');
@@ -36,7 +34,6 @@ export default function FortuneMessage({ message, personality }: FortuneMessageP
       }
     } else {
       setDisplayMessage(message);
-      setIsFlickering(false);
     }
   }, [message, personality]);
 
@@ -59,10 +56,10 @@ export default function FortuneMessage({ message, personality }: FortuneMessageP
 
   return (
     <div
-      className={`p-4 bg-white shadow rounded text-center max-w-sm ${isFlickering ? 'animate-pulse' : ''}`}
+      className="px-4 py-3 sm:px-6 sm:py-2 bg-white/90 text-gray-800 rounded-lg font-semibold"
       data-testid="fortune-message"
     >
-      <p className="text-lg font-medium">{displayMessage}</p>
+      <p>{displayMessage}</p>
     </div>
   );
 }

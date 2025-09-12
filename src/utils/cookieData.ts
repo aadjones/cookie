@@ -85,7 +85,7 @@ export const cookiePersonalities: CookiePersonality[] = [
     emoji: '🧐',
     messages: [
       'Amid the absurdity of daily life, a single glance in the mirror will reveal a profound truth: sometimes, the most ordinary moments hold the key to extraordinary insights—if you dare to AAHHHH WHY WOULD YOU EAT ME?!',
-      "Much as it seems simpler to crack open a cookie to find the answers, The truth lies within yourself. So yeah, you're gonna have to crack yourself open.",
+      "Much as it seems simpler to crack open a cookie to find the answers, the truth lies within yourself. So yeah, you're gonna have to crack yourself open.",
     ],
     specialBehavior: SpecialBehaviorType.STANDARD,
   },

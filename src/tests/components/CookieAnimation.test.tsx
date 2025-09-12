@@ -19,9 +19,6 @@ describe('CookieAnimation', () => {
     // Check that the emoji and explosion are displayed
     const emojiElement = screen.getByRole('img', { name: 'Cookie Art' });
     expect(emojiElement).toHaveTextContent('🍪💥');
-
-    // Check that the message is displayed
-    expect(screen.getByText('Cookie Cracked!')).toBeInTheDocument();
   });
 
   it('renders matryoshka cookie animation correctly and supports clicking', () => {
@@ -38,7 +35,7 @@ describe('CookieAnimation', () => {
     // Check initial state
     const initialDoll = screen.getByRole('img', { name: 'Matryoshka Doll Level 1' });
     expect(initialDoll).toHaveTextContent('🪆');
-    expect(screen.getByText('A smaller doll appeared! Click to open it.')).toBeInTheDocument();
+    expect(screen.getByText('A smaller doll appeared! Tap to open it.')).toBeInTheDocument();
 
     // Click the doll to reveal a smaller one
     fireEvent.click(initialDoll);
@@ -46,7 +43,7 @@ describe('CookieAnimation', () => {
     // Check that the level has increased
     const secondDoll = screen.getByRole('img', { name: 'Matryoshka Doll Level 2' });
     expect(secondDoll).toBeInTheDocument();
-    expect(screen.getByText('A smaller doll appeared! Click to open it.')).toBeInTheDocument();
+    expect(screen.getByText('A smaller doll appeared! Tap to open it.')).toBeInTheDocument();
 
     // Verify the class changes to reflect smaller size
     expect(secondDoll.className).toContain('text-7xl');
@@ -77,9 +74,6 @@ describe('CookieAnimation', () => {
 
     // Check that it has the quantum flicker animation class
     expect(emojiElement.className).toContain('animate-quantum-flicker');
-
-    // Check that the message is displayed
-    expect(screen.getByText('The cookie exists in multiple states!')).toBeInTheDocument();
   });
 
   it('ensures matryoshka message stays visible at maximum level', async () => {
