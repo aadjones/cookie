@@ -29,7 +29,7 @@ export default function CookieArt({
   const name = personality?.name || 'Fortune Cookie';
 
   // Get theme for this personality
-  const theme = getPersonalityTheme(personality);
+  const theme = getPersonalityTheme(personality || null);
 
   // Loading indicator for AI art generation
   const renderLoadingIndicator = () => (

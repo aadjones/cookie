@@ -8,7 +8,7 @@ interface HeaderProps {
 }
 
 export default function Header({ personality }: HeaderProps) {
-  const theme = getPersonalityTheme(personality);
+  const theme = getPersonalityTheme(personality || null);
 
   return (
     <header className={`${theme.headerBg} py-4 shadow-lg transition-colors duration-500`}>
