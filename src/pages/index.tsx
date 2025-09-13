@@ -6,7 +6,7 @@ import CookieAnimation from '../components/CookieAnimation';
 import FortuneMessage from '../components/FortuneMessage';
 // import GenerationModeToggle from '../components/GenerationModeToggle';
 // import ArtModeToggle from '../components/ArtModeToggle';
-import { CookiePersonality, ArtGenerationMode } from '../utils/types';
+import { CookiePersonality, ArtGenerationMode, SpecialBehaviorType } from '../utils/types';
 import { getRandomMessage } from '../utils/cookieData';
 import { getPersonalityTheme } from '../utils/personalityThemes';
 
@@ -15,10 +15,24 @@ export default function Home() {
   const [message, setMessage] = useState('');
   const [currentPersonality, setCurrentPersonality] = useState<CookiePersonality | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [matryoshkaLevel, setMatryoshkaLevel] = useState(1);
   // Always use pre-written messages - no AI generation toggle
   const [isGeneratingMessage] = useState(false);
   // Always use emoji art mode for current cookie
   const currentCookieArtMode = ArtGenerationMode.EMOJI;
+
+  // Helper function to determine if FortuneMessage should be shown
+  const shouldShowFortuneMessage = () => {
+    if (!currentPersonality) return false;
+
+    // For matryoshka cookies, only show message at the final level (level 5)
+    if (currentPersonality.specialBehavior === SpecialBehaviorType.MATRYOSHKA) {
+      return matryoshkaLevel === 5; // MAX_MATRYOSHKA_LEVEL
+    }
+
+    // For all other cookies, always show the message
+    return true;
+  };
 
   // Function to fetch a cookie personality
   const fetchCookiePersonality = useCallback(async () => {
@@ -68,6 +82,7 @@ export default function Home() {
   const handleNewCookie = () => {
     setIsCookieCracked(false);
     setMessage('');
+    setMatryoshkaLevel(1); // Reset matryoshka level for new cookie
     // Fetch a new cookie personality
     fetchCookiePersonality();
   };
@@ -144,9 +159,11 @@ export default function Home() {
           <div className="mt-16 mb-8 flex flex-col items-center">
             <CookieAnimation
               personality={currentPersonality}
+              message={message}
               artMode={currentCookieArtMode}
               imageUrl={undefined}
               isGeneratingArt={false}
+              onMatryoshkaLevelChange={setMatryoshkaLevel}
             />
           </div>
         )}
@@ -159,7 +176,7 @@ export default function Home() {
                 <span className="text-lg mb-2">Generating your fortune...</span>
                 <div className="animate-pulse h-4 w-32 bg-gray-200 rounded"></div>
               </div>
-            ) : message ? (
+            ) : message && shouldShowFortuneMessage() ? (
               <FortuneMessage message={message} personality={currentPersonality} />
             ) : null}
           </div>

@@ -20,11 +20,17 @@ export enum ArtGenerationMode {
   DALL_E = 'dall-e',
 }
 
+export interface QuantumPair {
+  message1: string;
+  message2: string;
+}
+
 export interface CookiePersonality {
   id: string;
   name: string;
   emoji: string;
   messages: string[];
+  quantumPairs?: QuantumPair[]; // Only used for quantum cookies
   specialBehavior: SpecialBehaviorType;
 }
 

@@ -42,14 +42,18 @@ export default function FortuneMessage({ message, personality }: FortuneMessageP
     return null;
   }
 
-  // For matryoshka cookies, show a different style message
+  // For matryoshka cookies, don't show any message until the very end
   if (personality.specialBehavior === SpecialBehaviorType.MATRYOSHKA) {
+    // Only show message if there is one (will only be set at the final level)
+    if (!message || message.trim() === '') {
+      return null;
+    }
     return (
       <div
-        className="p-4 bg-white shadow rounded text-center max-w-sm border-2 border-dashed border-amber-500"
+        className="px-4 py-3 sm:px-6 sm:py-2 bg-white/90 text-gray-800 rounded-lg font-semibold"
         data-testid="fortune-message"
       >
-        <p className="text-lg font-medium">Crack open the smaller cookie to reveal your fortune!</p>
+        {message}
       </div>
     );
   }

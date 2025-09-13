@@ -9,27 +9,22 @@ export const getRandomCookiePersonality = (): CookiePersonality => {
 };
 
 export const getRandomMessage = (personality: CookiePersonality): string => {
-  if (personality.messages.length === 0) return 'No fortune available for this cookie.';
-
   // Special handling for Quantum Cookie
   if (personality.specialBehavior === SpecialBehaviorType.QUANTUM) {
-    // For the Quantum Cookie, we have two specific pairs:
-    // 1. "Your outlook is good" / "Your outlook is not so good"
-    // 2. "There is no cookie" / "There is no you"
-
-    // Randomly choose which pair to use (0 or 1)
-    const pairChoice = Math.random() < 0.5 ? 0 : 1;
-
-    if (pairChoice === 0) {
-      // First pair: "Your outlook is good" / "Your outlook is not so good"
-      return `${personality.messages[0]} / ${personality.messages[1]}`;
-    } else {
-      // Second pair: "There is no cookie" / "There is no you"
-      return `${personality.messages[2]} / ${personality.messages[3]}`;
+    if (!personality.quantumPairs || personality.quantumPairs.length === 0) {
+      return 'Quantum uncertainty detected.';
     }
+
+    // Randomly choose which pair to use
+    const randomPairIndex = Math.floor(Math.random() * personality.quantumPairs.length);
+    const selectedPair = personality.quantumPairs[randomPairIndex];
+
+    return `${selectedPair.message1} / ${selectedPair.message2}`;
   }
 
   // Standard behavior for other cookies
+  if (personality.messages.length === 0) return 'No fortune available for this cookie.';
+
   const randomIndex = Math.floor(Math.random() * personality.messages.length);
   return personality.messages[randomIndex];
 };
